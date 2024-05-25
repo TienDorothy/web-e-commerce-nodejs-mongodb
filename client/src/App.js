@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
   CartPage,
   CheckoutPage,
@@ -11,42 +11,41 @@ import {
   ShopPage,
   Setting,
   HistoryPage,
-} from './pages';
+} from "./pages";
 
-import { loader as rootLoader } from './pages/Root';
-import { loader as historyLoader } from './pages/HistoryPage';
+import { loader as rootLoader } from "./pages/Root";
 //////
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Root />,
     loader: rootLoader,
-    id: 'root',
+    id: "root",
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
       {
-        path: 'shop',
-        id: 'shop',
+        path: "shop",
+        id: "shop",
         element: <ShopPage />,
       },
       {
-        path: 'detail',
-        id: 'detail',
+        path: "detail",
+        id: "detail",
         children: [
           {
-            path: ':productId',
+            path: ":productId",
             element: <DetailPage />,
           },
         ],
       },
 
-      { path: 'cart', element: <CartPage /> },
-      { path: 'checkout', element: <CheckoutPage /> },
-      { path: 'login', element: <LoginPage /> },
-      { path: 'register', element: <RegisterPage /> },
-      { path: 'setting', element: <Setting /> },
-      { path: 'history', element: <HistoryPage /> , loader:historyLoader, id: 'history'},
+      { path: "cart", element: <CartPage /> },
+      { path: "checkout", element: <CheckoutPage /> },
+      { path: "login", element: <LoginPage /> },
+      { path: "register", element: <RegisterPage /> },
+      { path: "setting", element: <Setting /> },
+      { path: "history", element: <HistoryPage /> },
     ],
   },
 ]);

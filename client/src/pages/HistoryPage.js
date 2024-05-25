@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../components";
-import {  PriceFormat } from "../UI";
+import { PriceFormat } from "../UI";
 
 import api from "../api/api";
 import { API_PATHS } from "../api/apiPath";
 import { getFromStorage } from "../store/setLocalStorage";
-import { json, useLoaderData } from "react-router";
 import { FaLongArrowAltRight } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { loginSelector } from "../store/loginSlice";
+import sendRequest from "../api/sendRequest";
 
 // ------------------ ///
 const HistoryPage = () => {
-  const data = useLoaderData();
+  const [data, setData] = useState(null);
+  const userId = getFromStorage("userInfo").userId;
+
   const [detailOrder, setDetailOrder] = useState({});
   const [openDetailOrder, setOpenDetailOrder] = useState(false);
 
@@ -26,14 +30,34 @@ const HistoryPage = () => {
     "detail",
   ];
   const titleProduct = ["id product", "image", "name", "price", "count"];
-  
+
   const detailHandler = (order) => {
     setDetailOrder(order);
     setOpenDetailOrder(true);
   };
+
+  const loadData = async () => {
+    try {
+      const response = await sendRequest(
+        "get",
+        API_PATHS.GET_ORDERS_USER(userId)
+      );
+
+      if (response.status === 200) {
+        setData(response.data.orders);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+    console.log("data", data);
+  }, []);
   return (
     <>
-      {data && (
+      {data !== null && (
         <section id="history" className="container italic">
           <Header title="history" children="history" />
           <div id="history-main">
@@ -49,42 +73,55 @@ const HistoryPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((order, i) => (
-                      <tr key={i} className="text-center">
-                        <td> {order._id.toString()} </td>
-                        <td> {order.userId._id.toString()} </td>
-                        <td> {order.userId.fullName} </td>
-                        <td> {order.userId.phone} </td>
-                        <td> {order.userId.address} </td>
-                        <td>
-                          <PriceFormat price={order.total} />
-                          <p>VND</p>
-                        </td>
-                        <td>
-                          Waiting for
-                          <p>{order.delivery} </p>
-                        </td>
-                        <td>
-                          Waiting for
-                          <p>{order.status} </p>
-                        </td>
-                        <td>
-                          <button
-                            className="p-3 border border-black hover:bg-second"
-                            onClick={() => detailHandler(order)}
-                          >
-                            Detail
-                            <FaLongArrowAltRight className="inline-block ml-2" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {data.map((order, i) => {
+                      const isChosen =
+                        order._id.toString() === detailOrder._id?.toString();
+                      return (
+                        <tr key={i} className={`text-center`}>
+                          <td className={`${isChosen ? "bg-neutral-300" : ""}`}>
+                            {order._id.toString()}{" "}
+                          </td>
+                          <td className={`${isChosen ? "bg-neutral-300" : ""}`}>
+                            {order.userId._id.toString()}{" "}
+                          </td>
+                          <td className={`${isChosen ? "bg-neutral-300" : ""}`}>
+                            {order.userId.fullName}{" "}
+                          </td>
+                          <td className={`${isChosen ? "bg-neutral-300" : ""}`}>
+                            {order.userId.phone}{" "}
+                          </td>
+                          <td className={`${isChosen ? "bg-neutral-300" : ""}`}>
+                            {order.userId.address}{" "}
+                          </td>
+                          <td className={`${isChosen ? "bg-neutral-300" : ""}`}>
+                            <PriceFormat price={order.total} />
+                            <p>VND</p>
+                          </td>
+                          <td className={`${isChosen ? "bg-neutral-300" : ""}`}>
+                            Waiting for
+                            <p>{order.delivery} </p>
+                          </td>
+                          <td className={`${isChosen ? "bg-neutral-300" : ""}`}>
+                            Waiting for
+                            <p>{order.status} </p>
+                          </td>
+                          <td className={`${isChosen ? "bg-neutral-300" : ""}`}>
+                            <button
+                              className="p-3 border border-black hover:bg-second"
+                              onClick={() => detailHandler(order)}
+                            >
+                              Detail
+                              <FaLongArrowAltRight className="inline-block ml-2" />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-
           {/* information order */}
           {openDetailOrder && (
             <div id="information" className="my-10">
@@ -146,14 +183,3 @@ const HistoryPage = () => {
 };
 
 export default HistoryPage;
-export async function loader({ request, params }) {
-  const user = getFromStorage("userInfo");
-  const userId = user.userId;
-  const response = await api.get(API_PATHS.GET_ORDERS_USER(userId));
-  if (!response) {
-    throw json({ message: "Could not fetch events." }, { status: 500 });
-  } else {
-    const data = await response.data;
-    return data.orders;
-  }
-}

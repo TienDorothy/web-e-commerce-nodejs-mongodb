@@ -7,7 +7,6 @@ const sendRequest = async (method, url, data = null) => {
       url: url,
       data: data,
     });
-    console.log("response", response);
     return {
       status: response.status,
       data: response.data,

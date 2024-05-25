@@ -63,7 +63,7 @@ exports.login = async (req, res, next) => {
       user._id.toString(),
       user.role === "admin"
     );
-
+console.log('token', token)
     // res.cookie("jwt", token, {
     //   httpOnly: true,
     //   sameSite: "None",

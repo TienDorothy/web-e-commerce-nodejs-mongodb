@@ -50,7 +50,7 @@ async function authenticateRequest(req) {
   }
 
   const token = authHeader.split(" ")[1].toString();
-  console.log("token >>>", token, "\n");
+  console.log("token client >>>", token, "\n");
 
   try {
     const decodedToken = await jwt.verify(token, process.env.TOKEN_SECRET);

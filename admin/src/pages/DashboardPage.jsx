@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { orderActions, orderSelector } from "../store/ordersSlice";
 import { searchSelector } from "../store/searchSlice";
 import { loginSelector } from "../store/loginSlice";
+import Loading from "../components/Loading";
 
 /////
 export default function HomePage() {
@@ -28,6 +29,7 @@ export default function HomePage() {
   const orderResult = useSelector(orderSelector.orderResult);
 
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const info = [
     { digit: data?.countClients, name: "Clients", icon: <HiOutlineUserAdd /> },
@@ -53,6 +55,7 @@ export default function HomePage() {
   ];
 
   const loadData = async () => {
+    setLoading(true);
     try {
       const res = await sendRequest("get", API_PATHS.GET_ANALYTICS);
       setData(res.data);
@@ -60,6 +63,7 @@ export default function HomePage() {
     } catch (error) {
       navigate("/login");
     }
+    setLoading(false);
   };
 
   // get data from server
@@ -77,11 +81,15 @@ export default function HomePage() {
   return (
     <>
       <h1>Dashboard</h1>
-      {data && (
-        <>
-          <CardInfo info={info} />
-          <TableOrder data={orderResult} />
-        </>
+      {loading ? (
+        <Loading />
+      ) : (
+        data && (
+          <>
+            <CardInfo info={info} />
+            <TableOrder data={orderResult} />
+          </>
+        )
       )}
     </>
   );

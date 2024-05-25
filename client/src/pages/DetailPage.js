@@ -3,12 +3,14 @@ import { useNavigate, useParams, useRouteLoaderData } from "react-router";
 import PriceChange from "../UI/PriceFormat";
 import Button from "../UI/Button";
 import { ProductItem, QuantityForm } from "../components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../store/cartSlice";
+import { loginSelector } from "../store/loginSlice";
 
 const DetailPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLogin = useSelector(loginSelector.isLogin);
   // get id from url
   const { productId } = useParams();
 
@@ -30,6 +32,10 @@ const DetailPage = () => {
   const getQuantity = (quantity) => setQuantity(quantity);
 
   const cartSubmit = () => {
+    if (!isLogin) {
+      return alert("You have to login");
+    }
+
     let item = {
       product: {
         _id: product._id,
