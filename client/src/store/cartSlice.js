@@ -10,6 +10,7 @@ export const initialState = {
   listCart: [],
   numberCart: 0,
   totalCart: 0,
+  stock: 0,
 };
 
 const cartSlice = createSlice({
@@ -30,7 +31,7 @@ const cartSlice = createSlice({
     },
     ADD_CART(state, action) {
       const newItem = action.payload;
-            const list = addToListLocalStorage("listCart", newItem);
+      const list = addToListLocalStorage("listCart", newItem);
       state.listCart = list;
 
       state.totalCart = state.listCart.reduce(
@@ -92,6 +93,16 @@ const cartSlice = createSlice({
       );
       localStorage.setItem("listCart", JSON.stringify(state.listCart));
     },
+
+    CHECK_STOCK(state, action) {
+      const prod = action.payload;
+      const listCart = getFromStorage('listCart')||[];
+      const prodCart = listCart.find((item) => item.product._id === prod._id);
+      console.log('prodCart', prodCart)
+      if (prodCart) {
+       state.stock = prod.stock - prodCart.quantity;
+      }
+    },
   },
 });
 
@@ -99,6 +110,7 @@ export const cartActions = cartSlice.actions;
 export const cartSelector = {
   listCart: (state) => state.cart.listCart,
   numberCart: (state) => state.cart.numberCart,
+  stock: (state) => state.cart.stock,
   totalCart: (state) => state.cart.totalCart,
 };
 export default cartSlice.reducer;

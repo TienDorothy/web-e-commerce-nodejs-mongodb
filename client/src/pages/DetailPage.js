@@ -4,19 +4,21 @@ import PriceChange from "../UI/PriceFormat";
 import Button from "../UI/Button";
 import { ProductItem, QuantityForm } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "../store/cartSlice";
+import { cartActions, cartSelector } from "../store/cartSlice";
 import { loginSelector } from "../store/loginSlice";
+import { productListSelector } from "../store/productListSlice";
 
 const DetailPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLogin = useSelector(loginSelector.isLogin);
+  const stock = useSelector(cartSelector.stock);
   // get id from url
   const { productId } = useParams();
 
   // find product by productId
   const data = useRouteLoaderData("root");
-  let product = data.find((item) => item._id === productId);
+  let product = data?.find((item) => item._id === productId);
 
   let longDesc, relatedProducts;
   if (product) {
@@ -42,12 +44,15 @@ const DetailPage = () => {
         name: product.name,
         img1: product.img1,
         price: parseInt(product.price),
-        stock: product.stock
+        stock: product.stock,
       },
       quantity: parseInt(quantity),
     };
     console.log("add to cart", item);
+
     dispatch(cartActions.ADD_CART(item));
+    dispatch(cartActions.CHECK_STOCK(product));
+
     alert(`Add ${quantity} ${product.name} to Your Cart.`);
   };
 
@@ -59,7 +64,9 @@ const DetailPage = () => {
   // reset QuantityForm
   useEffect(() => {
     setKey((pre) => pre + 1);
-  }, [productId]);
+
+    dispatch(cartActions.CHECK_STOCK(product));
+  }, [productId,stock]);
   return (
     <>
       {product && (
@@ -89,16 +96,24 @@ const DetailPage = () => {
                 {product.category}
               </p>
 
-              {/* form input */}
-              {product?.stock < 1 ? (
-                <h3 className="p-4 bg-neutral-200 text-center">Product not available</h3>
+              {/* Check stock product */}
+              {stock < 1 ? (
+                <h3 className="p-4 bg-neutral-200 text-center">
+                  Product not available
+                </h3>
               ) : (
                 <div className="cart flex items-stretch">
                   <div className="input-group">
                     <div className="flex-b-c gap-4 border-gray-400 border">
                       <p className="text-gray-400 p-2">QUANTITY</p>
-                      <QuantityForm onSubmit={getQuantity} key={key} stock={product?.stock} />
+                      <QuantityForm
+                        onSubmit={getQuantity}
+                        key={key}
+                        // stock={product?.stock}
+                        stock={stock}
+                      />
                     </div>
+
                     <Button onClick={cartSubmit}>Add to cart</Button>
                   </div>
                 </div>

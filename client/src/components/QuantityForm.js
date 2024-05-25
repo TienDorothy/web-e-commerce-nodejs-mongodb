@@ -7,7 +7,7 @@ const QuantityForm = (props) => {
     parseInt(props.inputForm) > props.stock
       ? props.stock
       : parseInt(props.inputForm);
-      
+
   const [input, setInput] = useState(inputForm || 1);
 
   const decrementHandler = () => {
@@ -18,8 +18,7 @@ const QuantityForm = (props) => {
   const incrementHandler = () => {
     if (input < props.stock) {
       setInput((pre) => pre + 1);
-    }
-    alert(`The product is only available in ${props.stock} units`);
+    } else alert(`The product is only available in ${props.stock} units`);
   };
 
   //   passing data from child to parent
