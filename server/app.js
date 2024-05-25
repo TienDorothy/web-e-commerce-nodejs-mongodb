@@ -32,7 +32,6 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-      'http://localhost:3002',
       process.env.URL_CLIENT,
       process.env.URL_ADMIN,
       process.env.URL_TEST,
