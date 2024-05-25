@@ -63,7 +63,7 @@ const DetailPage = () => {
 
   // reset QuantityForm
   useEffect(() => {
-    setKey((pre) => pre + 1);
+    setKey((pre) => pre + 1); // render Quantity form
 
     dispatch(cartActions.CHECK_STOCK(product));
   }, [productId,stock]);
