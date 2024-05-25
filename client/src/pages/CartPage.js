@@ -69,6 +69,7 @@ const CartPage = () => {
                             )
                           }
                           inputForm={item.quantity}
+                          stock={item.product.stock}
                           id={item.id}
                         />
                         {}

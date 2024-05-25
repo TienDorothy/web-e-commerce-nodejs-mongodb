@@ -1,17 +1,25 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 
 const QuantityForm = (props) => {
   // get id product
-  const [input, setInput] = useState(parseInt(props.inputForm) || 1);
-  
+  const inputForm =
+    parseInt(props.inputForm) > props.stock
+      ? props.stock
+      : parseInt(props.inputForm);
+      
+  const [input, setInput] = useState(inputForm || 1);
+
   const decrementHandler = () => {
     if (input > 1) {
       setInput((pre) => pre - 1);
     }
   };
   const incrementHandler = () => {
-    setInput((pre) => pre + 1);
+    if (input < props.stock) {
+      setInput((pre) => pre + 1);
+    }
+    alert(`The product is only available in ${props.stock} units`);
   };
 
   //   passing data from child to parent

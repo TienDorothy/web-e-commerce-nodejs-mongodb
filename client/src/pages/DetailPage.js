@@ -42,10 +42,11 @@ const DetailPage = () => {
         name: product.name,
         img1: product.img1,
         price: parseInt(product.price),
+        stock: product.stock
       },
       quantity: parseInt(quantity),
     };
-    console.log("detail", item);
+    console.log("add to cart", item);
     dispatch(cartActions.ADD_CART(item));
     alert(`Add ${quantity} ${product.name} to Your Cart.`);
   };
@@ -89,15 +90,19 @@ const DetailPage = () => {
               </p>
 
               {/* form input */}
-              <div className="cart flex items-stretch">
-                <div className="input-group">
-                  <div className="flex-b-c gap-4 border-gray-400 border">
-                    <p className="text-gray-400 p-2">QUANTITY</p>
-                    <QuantityForm onSubmit={getQuantity} key={key} />
+              {product?.stock < 1 ? (
+                <h3 className="p-4 bg-neutral-200 text-center">Product not available</h3>
+              ) : (
+                <div className="cart flex items-stretch">
+                  <div className="input-group">
+                    <div className="flex-b-c gap-4 border-gray-400 border">
+                      <p className="text-gray-400 p-2">QUANTITY</p>
+                      <QuantityForm onSubmit={getQuantity} key={key} stock={product?.stock} />
+                    </div>
+                    <Button onClick={cartSubmit}>Add to cart</Button>
                   </div>
-                  <Button onClick={cartSubmit}>Add to cart</Button>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 

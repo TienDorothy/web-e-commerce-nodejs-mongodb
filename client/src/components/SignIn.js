@@ -36,7 +36,7 @@ const SignIn = () => {
         // get value for cart
         if (response.status === 200) {
           dispatch(loginActions.SET_LOGIN(response.data));
-          navigate("/");
+          navigate(-1);
         }
       } catch (error) {
         alert(error)
