@@ -16,8 +16,8 @@ const SignIn = () => {
   const login = useSelector(loginSelector.isLogin);
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "user123@gmail.com",
+      password: "user123@gmail.com",
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Required email").email(),

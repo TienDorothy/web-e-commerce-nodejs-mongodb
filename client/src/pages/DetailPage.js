@@ -19,7 +19,7 @@ const DetailPage = () => {
   // find product by productId
   const data = useRouteLoaderData("root");
   let product = data?.find((item) => item._id === productId);
-
+  console.log('data', data)
   let longDesc, relatedProducts;
   if (product) {
     longDesc = product.long_desc?.split("\n");
@@ -66,7 +66,7 @@ const DetailPage = () => {
     setKey((pre) => pre + 1); // render Quantity form
 
     dispatch(cartActions.CHECK_STOCK(product));
-  }, [productId,stock]);
+  }, [productId]);
   return (
     <>
       {product && (
@@ -97,7 +97,7 @@ const DetailPage = () => {
               </p>
 
               {/* Check stock product */}
-              {stock < 1 ? (
+              {product?.stock < 1 ? (
                 <h3 className="p-4 bg-neutral-200 text-center">
                   Product not available
                 </h3>
@@ -109,8 +109,8 @@ const DetailPage = () => {
                       <QuantityForm
                         onSubmit={getQuantity}
                         key={key}
-                        // stock={product?.stock}
-                        stock={stock}
+                        stock={product?.stock}
+                        // stock={stock}
                       />
                     </div>
 

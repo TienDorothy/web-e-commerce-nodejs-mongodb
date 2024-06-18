@@ -15,8 +15,8 @@ export default function Login() {
   const isAdmin = useSelector(loginSelector.isAdmin);
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "user123@gmail.com",
+      password: "user123@gmail.com",
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Required email").email(),

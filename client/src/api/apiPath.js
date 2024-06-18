@@ -4,6 +4,7 @@ export const API_PATHS = {
   POST_LOGOUT :`/api/auth/logout`,
 
   GET_PRODUCTS: "/api/product/products",
+  GET_PRODUCT_BY_ID:(prodId)=> `/api/product/product/${prodId}`,
   
   GET_ORDERS_USER:(userId)=> `api/order/order-user/${userId}` ,
 
