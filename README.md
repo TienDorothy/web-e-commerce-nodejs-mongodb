@@ -24,7 +24,16 @@ The main functionalities of the backend include:
 - Image upload mechanism to the server, allowing product creation.
 
 ## Technologies Used
+### Backend
+[Backend](http://3.25.135.78)
 
+[Link test backend](http://3.25.135.78/api/product/products)
+
+- Express.js
+- MongoDB
+- AWS
+- Multer
+- Firebase
 ### Frontend: Client and Admin
 [Web e commerce preview](https://e-commerce-client-react.vercel.app/)
 
@@ -36,20 +45,11 @@ The main functionalities of the backend include:
 - Redux Toolkit
 - React Router
 
-### Backend
-[Backend](https://server-e-commerce-nodejs-mongodb.onrender.com/)
 
-[Link test backend](https://server-e-commerce-nodejs-mongodb.onrender.com/api/product/products)
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- Multer
-- Firebase
 
 ### Authentication and Authorization
 Authentication and authorization of users are implemented using session and token-based authentication mechanisms.
 
 ## Deploy
 ### Frontend: on [Vercel](https://vercel.com/)
-### Backend: on [Render](https://render.com/)
+### Backend: on [AWS](https://aws.amazon.com)
