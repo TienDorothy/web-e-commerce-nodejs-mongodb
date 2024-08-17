@@ -25,13 +25,12 @@ The main functionalities of the backend include:
 
 ## Technologies Used
 ### Backend
-[Backend](http://3.25.135.78)
+[Backend](https://server-e-commerce-nodejs-mongodb.onrender.com)
 
-[Link test backend](http://3.25.135.78/api/product/products)
+[Link test backend](https://server-e-commerce-nodejs-mongodb.onrender.com/api/product/products)
 
 - Express.js
 - MongoDB
-- AWS
 - Multer
 - Firebase
 ### Frontend: Client and Admin
@@ -52,4 +51,4 @@ Authentication and authorization of users are implemented using session and toke
 
 ## Deploy
 ### Frontend: on [Vercel](https://vercel.com/)
-### Backend: on [AWS](https://aws.amazon.com)
+### Backend: on [Render](https://render.com/)
